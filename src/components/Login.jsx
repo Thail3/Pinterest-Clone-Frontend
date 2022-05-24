@@ -15,22 +15,22 @@ function Login() {
     console.log(response.profileObj.email);
     console.log(response.profileObj.imageUrl);
 
-    // localStorage.setItem("user", JSON.stringify(response.profileObj));
-    // const { name, googleId, imageUrl } = response.profileObj;
-    // console.log(name);
-    // console.log(googleId);
-    // console.log(imageUrl);
-    // const doc = {
-    //   _id: googleId,
-    //   _type: "user",
-    //   userName: name,
-    //   image: imageUrl,
-    // };
-    // console.log(doc);
+    localStorage.setItem("user", JSON.stringify(response.profileObj));
+    const { name, googleId, imageUrl } = response.profileObj;
+    console.log(name);
+    console.log(googleId);
+    console.log(imageUrl);
+    const doc = {
+      _id: googleId,
+      _type: "user",
+      userName: name,
+      image: imageUrl,
+    };
+    console.log(doc);
 
-    // client.createIfNotExists(doc).then(() => {
-    //   navigate("/", { replace: true });
-    // });
+    client.createIfNotExists(doc).then(() => {
+      navigate("/", { replace: true });
+    });
   };
 
   return (
@@ -53,7 +53,7 @@ function Login() {
 
           <div className="shadow-2xl">
             <GoogleLogin
-              clientId="538407433450-f7f2ne5udcnsga3tncfmbeuciq7e8itl.apps.googleusercontent.com"
+              clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
               render={(renderProps) => (
                 <button
                   type="button"
@@ -61,14 +61,12 @@ function Login() {
                   onClick={renderProps.onClick}
                   disabled={renderProps.disabled}
                 >
-                  <FcGoogle className="mr-4" />
-                  Sign in with Google
+                  <FcGoogle className="mr-4" /> Sign in with google
                 </button>
               )}
-              buttonText="Login"
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
+              cookiePolicy="single_host_origin"
             />
           </div>
         </div>
